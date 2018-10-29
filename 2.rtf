@@ -1,0 +1,264 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Calibri;}}
+{\*\generator Riched20 10.0.15063}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\f0\fs22\lang9 ==================================================================================\par
+1..\par
+\b table ==customer\b0\par
+SQL> create table account(acc_no number,branch_name varchar2(52),balance number not null,primary key(acc_no));\par
+\par
+Table created.\par
+\par
+SQL> insert into account values(101,'sbi',250000);\par
+\par
+1 row created.\par
+\par
+SQL> insert into account values(102,'sbh',2505000);\par
+\par
+1 row created.\par
+\par
+SQL> insert into account values(103,'sbi',205000);\par
+\par
+1 row created.\par
+\par
+SQL> insert into account values(104,'sbh',2055000);\par
+\par
+1 row created.\par
+SQL> select * from customer;\par
+\par
+NAME\tab\tab STREAT\tab\tab CITY\par
+-------------------------------------------------------\par
+Ganesh\tab\tab akurdi\tab\tab pune\par
+Ganesh1\tab akurdi1\tab\tab pune\par
+Ganesh2\tab akurdi2\tab\tab pune\par
+Ganesh3\tab akurdi3\tab\tab pune\par
+\par
+\b table==branch\par
+\b0 SQL> create table branch(branch_name varchar2(20),branch_city varchar2(25),assets varchar2(52));\par
+\par
+Table created.\par
+\par
+SQL> insert into branch values('sbi','akurdi','good');\par
+\par
+1 row created.\par
+\par
+SQL> insert into branch values('sbh','akurdi1','good');\par
+\par
+1 row created.\par
+\par
+SQL> insert into branch values('sbi','akurdi2','good');\par
+\par
+1 row created.\par
+\par
+\b table ==customer\par
+\b0\par
+SQL> create table customer(name varchar2(55),streat varchar2(55),city varchar2(55));\par
+\par
+Table created.\par
+\par
+SQL> insert into customer values('Ganesh','akurdi','pune');\par
+\par
+1 row created.\par
+\par
+SQL> insert into customer values('Ganesh1','akurdi1','pune');\par
+\par
+1 row created.\par
+\par
+SQL> insert into customer values('Ganesh2','akurdi2','pune');\par
+\par
+1 row created.\par
+\par
+SQL> insert into customer values('Ganesh3','akurdi3','pune');\par
+\par
+1 row created.\par
+\b table--depositor\par
+\b0\par
+SQL> create table depositor(cust varchar2(55),acc_no int );\par
+\par
+Table created.\par
+\par
+SQL> insert into depositor values('Ganesh',101);\par
+\par
+1 row created.\par
+\par
+SQL> insert into depositor values('Ganesh1',102);\par
+\par
+1 row created.\par
+\par
+SQL> insert into depositor values('Ganesh2',103);\par
+\par
+1 row created.\par
+\par
+SQL> insert into depositor values('Ganesh3',104);\par
+\par
+1 row created.\par
+SQL> select * from branch;\par
+\par
+BRANCH_NAME          BRANCH_CITY\tab PROPERTY\par
+-------------------- -------------------------\par
+sbi                  akurdi\tab\tab\tab good\par
+sbh                  akurdi1\tab\tab\tab good\par
+sbi                  akurdi2\tab\tab\tab good\par
+\par
+\b table==loan\par
+\b0\par
+SQL> create table loan (loan_no int not null ,barnch_name varchar2(55) not null,amt int not null);\par
+\par
+Table created.\par
+\par
+SQL> insert into loan values(10,'sbi',2554550);\par
+\par
+1 row created.\par
+\par
+SQL> insert into loan values(11,'sbh',255450);\par
+\par
+1 row created.\par
+\par
+SQL> insert into loan values(12,'sbi',25450);\par
+\par
+1 row created.\par
+\par
+SQL> select * from loan ;\par
+\par
+   LOAN_NO BARNCH_NAME                                                    AMT\par
+---------- ------------------------------------------------------- ----------\par
+        10 sbi                                                        2554550\par
+        11 sbh                                                         255450\par
+        12 sbi                                                          25450\par
+\par
+\b  table--borrower1\par
+\b0\par
+SQL> create table borrower1(cust varchar2(55) not null,loan_no int not null);\par
+\par
+Table created.\par
+\par
+SQL> insert into borrower1 values('Ganesh',10);\par
+\par
+1 row created.\par
+\par
+SQL> insert into borrower1 values('Ganesh1',11);\par
+\par
+1 row created.\par
+\par
+SQL> insert into borrower1 values('Ganesh2',12);\par
+\par
+1 row created.\par
+\par
+SQL> insert into borrower1 values('Ganesh3',13);\par
+\par
+1 row created.\par
+SQL> select * from BORROWER1;\par
+\par
+CUST                                                       LOAN_NO\par
+------------------------------------------------------- ----------\par
+Ganesh                                                          10\par
+Ganesh1                                                         11\par
+Ganesh2                                                         12\par
+Ganesh3                                                         13\par
+==================================================================================\par
+\b 2..\par
+\par
+\b0 SQL> desc branch;\par
+ Name                                      Null?    Type\par
+ ----------------------------------------- -------- ----------------------------\par
+ BRANCH_NAME                                        VARCHAR2(20)\par
+ BRANCH_CITY                                        VARCHAR2(25)\par
+ ASSETS                                             VARCHAR2(52)\par
+\par
+SQL> alter table branch rename column assets to property;\par
+\par
+Table altered.\par
+\par
+SQL> desc branch\par
+ Name                                      Null?    Type\par
+ ----------------------------------------- -------- ----------------------------\par
+ BRANCH_NAME                                        VARCHAR2(20)\par
+ BRANCH_CITY                                        VARCHAR2(25)\par
+ PROPERTY                                           VARCHAR2(52)\par
+==================================================================================\b 3..\par
+\b0\par
+SQL> select loan.loan_no from loan join branch on branch_name=branch.branch_name where branch_city='akurdi' and amt>120000;\par
+\par
+   LOAN_NO\par
+----------\par
+        10\par
+        11\par
+==================================================================================4..\par
+\par
+SQL> select avg(balance) as bal,branch_name from account group by branch_name;\par
+\par
+       BAL BRANCH_NAME\par
+---------- ----------------------------------------------------\par
+    227500 sbi\par
+   2280000 sbh\par
+==================================================================================\b 5..\par
+\b0\par
+SQL> select  branch_name from account group by branch_name having avg(balance) > 120000 ;\par
+\par
+BRANCH_NAME\par
+----------------------------------------------------\par
+sbi\par
+sbh\par
+==================================================================================\b 6..\par
+\b0 SQL> select count(*) from customer;\par
+\par
+  COUNT(*)\par
+----------\par
+         4\par
+==================================================================================\b 7..\par
+\b0\par
+SQL> select sum(amt) as amount from loan;\par
+\par
+    AMOUNT\par
+----------\par
+   2835450\par
+==================================================================================\par
+\b 8..\b0\par
+SQL> select * from loan;\par
+\par
+   LOAN_NO BARNCH_NAME                                                    AMT\par
+---------- ------------------------------------------------------- ----------\par
+        10 sbi                                                        2554550\par
+        11 sbh                                                         255450\par
+        12 sbi                                                          25450\par
+\par
+SQL> delete  from loan where amt>245000 and amt<265000;\par
+\par
+1 row deleted.\par
+\par
+SQL> select * from loan;\par
+\par
+   LOAN_NO BARNCH_NAME                                                    AMT\par
+---------- ------------------------------------------------------- ----------\par
+        10 sbi                                                        2554550\par
+        12 sbi                                                          25450\par
+==================================================================================\b 9..\par
+\b0\par
+SQL> create table student (roll_no number primary key not null,name varchar2(33));\par
+\par
+Table created.\par
+\par
+SQL> create sequence roll_seq\par
+  2  start with 1\par
+  3  increment by 1\par
+  4  cache 20;\par
+SQL> insert into student values(roll_seq.nextval,'Ganesh');\par
+\par
+1 row created.\par
+\par
+SQL> insert into student values(roll_seq.nextval,'Ganesh2');\par
+\par
+1 row created.\par
+\par
+SQL> insert into student values(roll_seq.nextval,'Ganesh3');\par
+\par
+1 row created.\par
+SQL> select *from student;\par
+\par
+      ROLL NAME\par
+---------- ---------------------------------\par
+         1 Ganesh\par
+         2 Ganesh2\par
+         3 Ganesh3\par
+==================================================================================\par
+\par
+}
+ 
